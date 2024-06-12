@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://kit.fontawesome.com/9e9931aed0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./CSS/media.css">
+    <link rel="stylesheet" href="./CSS/menu.css">
+    <link rel="stylesheet" href="./CSS/slide.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <title>여행지 검색</title>
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <div class="header-click">
+                <i class="fa-solid fa-globe"></i>
+                <a href="http://localhost:8080/jwbook/trip/index.html">국내여행 스캐너</a>
+            </div>
+        </h1>
+        <ul class="menu">
+            <li><a href="index.html">홈 화면</a></li>
+            <li><a href="secondpage.html">테마별 여행지</a></li>
+            <li><a href="mappage.html">지도로 보기</a></li>
+        </ul>
+        <a href="#" class="header_toggleBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </a>
+    </header>
+    
+    <main>
+        <div id="chat-box">
+            <p>여행지를 찾아보세요 <i id="plane-icon" class="fa-solid fa-plane-departure" aria-hidden="true"></i></p>
+        </div>
+            
+        <form id="filterForm">
+            <select id="regionFilter" class="course_regionFilterSelect" aria-label="Select region">
+                <option value="">전체</option>
+                <option value="1">서울</option>
+                <option value="6">부산</option>
+                <option value="4">대구</option>
+                <option value="2">인천</option>
+                <option value="5">광주</option>
+                <option value="3">대전</option>
+                <option value="7">울산</option>
+                <option value="8">세종</option>
+                <option value="31">경기</option>
+                <option value="32">강원</option>
+                <option value="33">충북</option>
+                <option value="34">충남</option>
+                <option value="35">경북</option>
+                <option value="36">경남</option>
+                <option value="37">전북</option>
+                <option value="38">전남</option>
+                <option value="39">제주</option>
+            </select>
+            <select id="hashtagFilter" class="course_hashtagFilterSelect" aria-label="Select hashtag">
+                <option value="">전체</option>
+                <option value="C0112">#가족코스</option>
+                <option value="C0113">#나홀로코스</option>
+                <option value="C0114">#힐링코스</option>
+                <option value="C0115">#도보코스</option>
+                <option value="C0116">#캠핑코스</option>
+                <option value="C0117">#맛코스</option>
+            </select>
+            <button type="button" class="course_formButton">검색</button>
+        </form>    
+        
+        <div id="courseContent"></div>
+        <div id="loadingPage" class="hidden">로딩 중...</div>
+        <div id="buttonBox"></div>
+
+        <button id="mappage-button">경로 검색</button>
+    </main>
+
+    <footer class="footer">
+        <div>
+            서경대학교 컴퓨터공학과
+        </div>
+    </footer>
+<script>
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let currentRegion = '';
+    let currentHashtag = '';
+
+    const regionFilter = document.getElementById('regionFilter');
+    const hashtagFilter = document.getElementById('hashtagFilter');
+    const filterButton = document.querySelector('.course_formButton');
+    const courseContent = document.getElementById('courseContent');
+    const buttonBox = document.getElementById('buttonBox');
+    const loadingPage = document.getElementById('loadingPage');
+
+    const areaCodeToName = {
+        '1': '서울',
+        '2': '인천',
+        '3': '대전',
+        '4': '대구',
+        '5': '광주',
+        '6': '부산',
+        '7': '울산',
+        '8': '세종',
+        '31': '경기',
+        '32': '강원',
+        '33': '충북',
+        '34': '충남',
+        '35': '경북',
+        '36': '경남',
+        '37': '전북',
+        '38': '전남',
+        '39': '제주'
+    };
+
+    filterButton.addEventListener('click', async () => {
+        currentPage = 1;
+        currentRegion = regionFilter.value;
+        currentHashtag = hashtagFilter.value;
+        await courseRenderHTML();
+    });
+
+    async function fetchDataByInput() {
+        const url = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Qx%2BQEoUDcmR05gNVHxsJR8eu3gv9rPmDsFb2gwnjx%2BJRuacdiqu9nyeU81IoBmPCsBlOznII8EygTyLxQZNWww%3D%3D&pageNo=${currentPage}&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=25&areaCode=${currentRegion}&cat2=${currentHashtag}&_type=json`;
+        console.log('fetchDataByInput URL:', url); // 디버깅용 URL 로그
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 올바르지 않습니다.');
+        }
+        const jsonData = await response.json();
+        console.log('fetchDataByInput jsonData:', jsonData); // 응답 데이터 로그
+        return jsonData;
+    }
+
+    async function fetchDataMoreInfo(contentId) {
+        const url = `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=Qx%2BQEoUDcmR05gNVHxsJR8eu3gv9rPmDsFb2gwnjx%2BJRuacdiqu9nyeU81IoBmPCsBlOznII8EygTyLxQZNWww%3D%3D&contentId=${contentId}&MobileOS=ETC&MobileApp=AppTest&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&_type=json`;
+        console.log('fetchDataMoreInfo URL:', url); // 디버깅용 URL 로그
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 올바르지 않습니다.');
+        }
+        const jsonData = await response.json();
+        console.log('fetchDataMoreInfo jsonData:', jsonData); // 응답 데이터 로그
+        return jsonData;
+    }
+
+    async function courseRenderHTML() {
+        loadingPage.classList.remove('hidden');
+        try {
+            courseContent.innerHTML = ''; // 이전 검색 결과를 초기화
+            buttonBox.innerHTML = ''; // 이전 페이지 버튼 초기화
+            const jsonData = await fetchDataByInput();
+            console.log('courseRenderHTML jsonData:', jsonData); // 응답 데이터 로그
+            if (!jsonData.response || !jsonData.response.body || !jsonData.response.body.items) {
+                throw new Error('검색된 데이터가 없습니다.');
+            }
+            const jsonDataArray = jsonData.response.body.items.item || [];
+            if (jsonDataArray.length === 0) {
+                throw new Error('검색된 데이터가 없습니다.');
+            }
+            const totalPages = Math.ceil(jsonData.response.body.totalCount / itemsPerPage);
+            await insertHTML(jsonDataArray);
+            createPageButtons(totalPages);
+        } catch (error) {
+            console.error(error);
+            buttonBox.innerHTML = '';
+            window.alert(error.message || '검색된 데이터가 없습니다.');
+        } finally {
+            loadingPage.classList.add('hidden');
+        }
+    }
+
+    async function insertHTML(jsonDataArray) {
+        const newUl = document.createElement('ul');
+        newUl.className = 'course_contentListChange_box';
+
+        for (const data of jsonDataArray) {
+            const courseRenderImageUrl = data.firstimage ? data.firstimage : 'https://play-lh.googleusercontent.com/6lRtpyZB4xCFnj1WUUoZC12I_88BoTn48LIjUe0FvHdP4zD0oYc5JpAKMNB5-jTAxKY=w600-h300-pc0xffffff-pd';
+            const courseId = data.contentid;
+            let courseRenderAddr;
+            let courseRenderHashtag;
+            let courseRenderOverview = data.overview || '설명 없음';
+
+            if (data.addr1) {
+                courseRenderAddr = data.addr1;
+            } else if (data.addr2) {
+                courseRenderAddr = data.addr2;
+            } else if (data.areacode && areaCodeToName[data.areacode]) {
+                courseRenderAddr = areaCodeToName[data.areacode];
+            } else {
+                courseRenderAddr = '전국';
+            }
+
+            if (data.cat2) {
+                switch (data.cat2) {
+                    case 'C0112':
+                        courseRenderHashtag = '#가족코스';
+                        break;
+                    case 'C0113':
+                        courseRenderHashtag = '#나홀로코스';
+                        break;
+                    case 'C0114':
+                        courseRenderHashtag = '#힐링코스';
+                        break;
+                    case 'C0115':
+                        courseRenderHashtag = '#도보코스';
+                        break;
+                    case 'C0116':
+                        courseRenderHashtag = '#캠핑코스';
+                        break;
+                    case 'C0117':
+                        courseRenderHashtag = '#맛코스';
+                        break;
+                    default:
+                        courseRenderHashtag = '#추천코스';
+                        break;
+                }
+            } else {
+                courseRenderHashtag = '#추천코스';
+            }
+
+            const detailedData = await fetchDataMoreInfo(courseId);
+            if (detailedData.response && detailedData.response.body && detailedData.response.body.items && detailedData.response.body.items.item[0].overview) {
+                courseRenderOverview = detailedData.response.body.items.item[0].overview;
+            }
+
+            newUl.insertAdjacentHTML('beforeend', `<li class="course_contentListItem">
+                <div class="course_contentListItemImg_box">
+                    <img class="course_contentListItemLinkImg" src="${courseRenderImageUrl}" alt="">
+                </div>
+                <div class="course_contentListItemText_box">
+                    <h4 class="course_contentListItemTextLinkTitle">${data.title}</h4>
+                    <p class="course_contentListItemTextLinkText">${courseRenderOverview}</p>
+                    <ul class="course_contentListItemTextList">
+                        <li class="course_contentListItemTextListRegion">${courseRenderAddr}</li>
+                        <li class="course_contentListItemTextListHashtag">${courseRenderHashtag}</li>
+                    </ul>
+                </div>
+            </li>`);
+        }
+
+        courseContent.insertAdjacentElement('afterbegin', newUl);
+    }
+
+    function createPageButtons(totalPages) {
+        buttonBox.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.addEventListener('click', () => {
+                currentPage = i;
+                courseRenderHTML();
+            });
+            buttonBox.appendChild(button);
+        }
+    }
+</script>
+
+    <script src="./JS/menu.js"></script>
+    <script src="./JS/scroll.js"></script>
+    <script src="./JS/button.js"></script>
+</body>
+</html>
