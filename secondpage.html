@@ -14,7 +14,7 @@
         <h1>
             <div class="header-click">
                 <i class="fa-solid fa-globe"></i>
-                <a href="http://localhost:8080/jwbook/trip/index.html">국내여행 스캐너</a>
+                <a href="index.html">국내여행 스캐너</a>
             </div>
         </h1>
         <ul class="menu">
@@ -33,6 +33,7 @@
         </div>
             
         <form id="filterForm">
+            <label for="regionFilter" class="visually-hidden">지역 선택</label>
             <select id="regionFilter" class="course_regionFilterSelect" aria-label="Select region">
                 <option value="">전체</option>
                 <option value="1">서울</option>
@@ -53,6 +54,7 @@
                 <option value="38">전남</option>
                 <option value="39">제주</option>
             </select>
+            <label for="hashtagFilter" class="visually-hidden">해시태그 선택</label>
             <select id="hashtagFilter" class="course_hashtagFilterSelect" aria-label="Select hashtag">
                 <option value="">전체</option>
                 <option value="C0112">#가족코스</option>
@@ -77,6 +79,7 @@
             서경대학교 컴퓨터공학과
         </div>
     </footer>
+    
 <script>
     let currentPage = 1;
     const itemsPerPage = 10;
