@@ -36,7 +36,7 @@
             <div class="option">
                 <div>
                     <form onsubmit="searchPlaces(); return false;">
-                        키워드 : <input type="text" value="서울역" id="keyword" size="15">
+                        검색어 : <input type="text" value="" id="keyword" size="15">
                         <button type="submit">검색하기</button>
                     </form>
                 </div>
@@ -47,25 +47,30 @@
         </div>
     </div>
 
-    <div id="travelPointsContainer">
-        <label for="travelPoint1">여행지 1:</label>
-        <input type="text" id="travelPoint1" placeholder="여행지를 입력해주세요">
-        <button onclick="deleteTravelPoint(1)">삭제</button>
-        
-        <label for="travelPoint2">여행지 2:</label>
-        <input type="text" id="travelPoint2" placeholder="여행지를 입력해주세요">
-        <button onclick="deleteTravelPoint(2)">삭제</button>
-        
-        <label for="travelPoint3">여행지 3:</label>
-        <input type="text" id="travelPoint3" placeholder="여행지를 입력해주세요">
-        <button onclick="deleteTravelPoint(3)">삭제</button>
-        
-        <label for="travelPoint4">여행지 4:</label>
-        <input type="text" id="travelPoint4" placeholder="여행지를 입력해주세요">
-        <button onclick="deleteTravelPoint(4)">삭제</button>
-    </div>
+	<div id="travelPointsContainer" class="button-center">
+	    <div>
+	        <label for="travelPoint1">여행지 1:</label>
+	        <input type="text" id="travelPoint1" placeholder="여행지를 입력해주세요">
+	        <button onclick="deleteTravelPoint(1)">삭제</button>
+	        
+	        <label for="travelPoint2">여행지 2:</label>
+	        <input type="text" id="travelPoint2" placeholder="여행지를 입력해주세요">
+	        <button onclick="deleteTravelPoint(2)">삭제</button>
+	    </div>
+	    <div>
+	        <label for="travelPoint3">여행지 3:</label>
+	        <input type="text" id="travelPoint3" placeholder="여행지를 입력해주세요">
+	        <button onclick="deleteTravelPoint(3)">삭제</button>
 
-    <button onclick="drawTravelRoute()">경로 확인</button>
+	        <label for="travelPoint4">여행지 4:</label>
+	        <input type="text" id="travelPoint4" placeholder="여행지를 입력해주세요">
+	        <button onclick="deleteTravelPoint(4)">삭제</button>
+	    </div>
+	</div>
+
+	<div class="button-center">
+	    <button id="drawTravelRouteButton" onclick="drawTravelRoute()">경로 확인</button>
+	</div>
 
     <footer class="footer">
         <div>
