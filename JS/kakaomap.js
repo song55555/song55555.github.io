@@ -1,7 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-    kakao.maps.load(initializeMap);
-});
-
 function initializeMap() {
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
