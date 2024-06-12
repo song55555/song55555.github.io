@@ -33,42 +33,42 @@
         </div>
             
         <form id="filterForm">
-            <label for="regionFilter" class="visually-hidden">지역 선택</label>
-            <select id="regionFilter" class="course_regionFilterSelect" aria-label="Select region">
-                <option value="">전체</option>
-                <option value="1">서울</option>
-                <option value="6">부산</option>
-                <option value="4">대구</option>
-                <option value="2">인천</option>
-                <option value="5">광주</option>
-                <option value="3">대전</option>
-                <option value="7">울산</option>
-                <option value="8">세종</option>
-                <option value="31">경기</option>
-                <option value="32">강원</option>
-                <option value="33">충북</option>
-                <option value="34">충남</option>
-                <option value="35">경북</option>
-                <option value="36">경남</option>
-                <option value="37">전북</option>
-                <option value="38">전남</option>
-                <option value="39">제주</option>
-            </select>
-            <label for="hashtagFilter" class="visually-hidden">해시태그 선택</label>
-            <select id="hashtagFilter" class="course_hashtagFilterSelect" aria-label="Select hashtag">
-                <option value="">전체</option>
-                <option value="C0112">#가족코스</option>
-                <option value="C0113">#나홀로코스</option>
-                <option value="C0114">#힐링코스</option>
-                <option value="C0115">#도보코스</option>
-                <option value="C0116">#캠핑코스</option>
-                <option value="C0117">#맛코스</option>
-            </select>
+        	<div class="filter-row">
+	            <label for="regionFilter" class="visually-hidden">지역 선택</label>
+	            <select id="regionFilter" class="course_regionFilterSelect" aria-label="Select region">
+	                <option value="">전체</option>
+	                <option value="1">서울</option>
+	                <option value="6">부산</option>
+	                <option value="4">대구</option>
+	                <option value="2">인천</option>
+	                <option value="5">광주</option>
+	                <option value="3">대전</option>
+	                <option value="7">울산</option>
+	                <option value="8">세종</option>
+	                <option value="31">경기</option>
+	                <option value="32">강원</option>
+	                <option value="33">충북</option>
+	                <option value="34">충남</option>
+	                <option value="35">경북</option>
+	                <option value="36">경남</option>
+	                <option value="37">전북</option>
+	                <option value="38">전남</option>
+	                <option value="39">제주</option>
+	            </select>
+	            <label for="hashtagFilter" class="visually-hidden">해시태그 선택</label>
+	            <select id="hashtagFilter" class="course_hashtagFilterSelect" aria-label="Select hashtag">
+	                <option value="">전체</option>
+	                <option value="C0112">#가족코스</option>
+	                <option value="C0113">#나홀로코스</option>
+	                <option value="C0114">#힐링코스</option>
+	                <option value="C0115">#도보코스</option>
+	                <option value="C0116">#캠핑코스</option>
+	                <option value="C0117">#맛코스</option>
+	            </select>
+	        </div>
             <button type="button" class="course_formButton">검색</button>
         </form>    
-        
         <div id="courseContent"></div>
-        <div id="loadingPage" class="hidden">로딩 중...</div>
         <div id="buttonBox"></div>
 
         <button id="mappage-button">경로 검색</button>
@@ -82,7 +82,7 @@
     
 <script>
     let currentPage = 1;
-    const itemsPerPage = 10;
+    const itemsPerPage = 3;
     let currentRegion = '';
     let currentHashtag = '';
 
@@ -91,7 +91,6 @@
     const filterButton = document.querySelector('.course_formButton');
     const courseContent = document.getElementById('courseContent');
     const buttonBox = document.getElementById('buttonBox');
-    const loadingPage = document.getElementById('loadingPage');
 
     const areaCodeToName = {
         '1': '서울',
@@ -121,7 +120,7 @@
     });
 
     async function fetchDataByInput() {
-        const url = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Qx%2BQEoUDcmR05gNVHxsJR8eu3gv9rPmDsFb2gwnjx%2BJRuacdiqu9nyeU81IoBmPCsBlOznII8EygTyLxQZNWww%3D%3D&pageNo=${currentPage}&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=25&areaCode=${currentRegion}&cat2=${currentHashtag}&_type=json`;
+        const url = `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=Qx%2BQEoUDcmR05gNVHxsJR8eu3gv9rPmDsFb2gwnjx%2BJRuacdiqu9nyeU81IoBmPCsBlOznII8EygTyLxQZNWww%3D%3D&pageNo=${currentPage}&numOfRows=${itemsPerPage}&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=25&areaCode=${currentRegion}&cat2=${currentHashtag}&_type=json`;
         console.log('fetchDataByInput URL:', url); // 디버깅용 URL 로그
         const response = await fetch(url);
         if (!response.ok) {
@@ -131,6 +130,7 @@
         console.log('fetchDataByInput jsonData:', jsonData); // 응답 데이터 로그
         return jsonData;
     }
+
 
     async function fetchDataMoreInfo(contentId) {
         const url = `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=Qx%2BQEoUDcmR05gNVHxsJR8eu3gv9rPmDsFb2gwnjx%2BJRuacdiqu9nyeU81IoBmPCsBlOznII8EygTyLxQZNWww%3D%3D&contentId=${contentId}&MobileOS=ETC&MobileApp=AppTest&defaultYN=Y&addrinfoYN=Y&overviewYN=Y&_type=json`;
@@ -145,7 +145,6 @@
     }
 
     async function courseRenderHTML() {
-        loadingPage.classList.remove('hidden');
         try {
             courseContent.innerHTML = ''; // 이전 검색 결과를 초기화
             buttonBox.innerHTML = ''; // 이전 페이지 버튼 초기화
@@ -165,8 +164,6 @@
             console.error(error);
             buttonBox.innerHTML = '';
             window.alert(error.message || '검색된 데이터가 없습니다.');
-        } finally {
-            loadingPage.classList.add('hidden');
         }
     }
 
