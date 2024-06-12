@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8" />
     <title>지도 페이지</title>
@@ -24,7 +23,7 @@
             <li><a href="secondpage.html">테마별 여행지</a></li>
             <li><a href="mappage.html">지도로 보기</a></li>
         </ul>
-        <a href="#" class="header_toggleBtn">
+        <a href="#" class="header_toggleBtn" aria-label="Toggle menu">
             <i class="fas fa-bars"></i>
         </a>
     </header>
@@ -72,10 +71,11 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6cb5a0b5b28297c7a0bbded4d33bd17&libraries=services"></script>
-    <script src="./JS/menu.js"></script>
-    <script src="./JS/scroll.js"></script>
-    <script src="./JS/kakaomap.js"></script>
+    <!-- 카카오 지도 API를 먼저 로드 -->
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d6cb5a0b5b28297c7a0bbded4d33bd17&libraries=services" defer></script>
+    <!-- 그 후에 사용자 정의 JS 파일을 로드 -->
+    <script src="./JS/menu.js" defer></script>
+    <script src="./JS/scroll.js" defer></script>
+    <script src="./JS/kakaomap.js" defer></script>
 </body>
-
 </html>
