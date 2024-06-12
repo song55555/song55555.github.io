@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <script src="https://kit.fontawesome.com/9e9931aed0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./CSS/media.css">
+    <link rel="stylesheet" href="./CSS/menu.css">
+    <link rel="stylesheet" href="./CSS/slide.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <title>국내여행 스캐너</title>
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <div class="header-click">
+                <i class="fa-solid fa-globe"></i>
+                <a href="http://localhost:8080/jwbook/trip/index.html">국내여행 스캐너</a>
+            </div>
+        </h1>
+        <ul class="menu">
+            <li><a href="index.html">홈 화면</a></li>
+            <li><a href="secondpage.html">테마별 여행지</a></li>
+            <li><a href="mappage.html">지도로 보기</a></li>
+        </ul>
+        <a href="#" class="header_toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </header>
+        
+    <main class="wrap">
+        <div class="content-wrap">
+            <ul class="slides">
+                <input type="radio" name="radio-btn" id="img-1" checked />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/1.jpg"/>
+                    </div>
+                    <div class="nav">
+                        <label for="img-6" class="prev">&#x2039;</label>
+                        <label for="img-2" class="next">&#x203a;</label>
+                    </div>
+                </li>
+
+                <input type="radio" name="radio-btn" id="img-2" />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/2.jpg" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-1" class="prev">&#x2039;</label>
+                        <label for="img-3" class="next">&#x203a;</label>
+                    </div>
+                </li>
+
+                <input type="radio" name="radio-btn" id="img-3" />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/3.jpg" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-2" class="prev">&#x2039;</label>
+                        <label for="img-4" class="next">&#x203a;</label>
+                    </div>
+                </li>
+
+                <input type="radio" name="radio-btn" id="img-4" />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/4.jpg" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-3" class="prev">&#x2039;</label>
+                        <label for="img-5" class="next">&#x203a;</label>
+                    </div>
+                </li>
+
+                <input type="radio" name="radio-btn" id="img-5" />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/5.jpg" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-4" class="prev">&#x2039;</label>
+                        <label for="img-6" class="next">&#x203a;</label>
+                    </div>
+                </li>
+
+                <input type="radio" name="radio-btn" id="img-6" />
+                <li class="slide-container">
+                    <div class="slide">
+                        <img src="./Img/6.jpg" />
+                    </div>
+                    <div class="nav">
+                        <label for="img-5" class="prev">&#x2039;</label>
+                        <label for="img-1" class="next">&#x203a;</label>
+                    </div>
+                </li>
+                <li class="nav-dots">
+                    <label for="img-1" class="nav-dot" id="img-dot-1"></label>
+                    <label for="img-2" class="nav-dot" id="img-dot-2"></label>
+                    <label for="img-3" class="nav-dot" id="img-dot-3"></label>
+                    <label for="img-4" class="nav-dot" id="img-dot-4"></label>
+                    <label for="img-5" class="nav-dot" id="img-dot-5"></label>
+                    <label for="img-6" class="nav-dot" id="img-dot-6"></label>
+                </li>
+            </ul>
+
+        </div>
+
+        <div id="plan-order">
+            <div class="order-title">
+                <p class="step">STEP 1</p>
+                <p>여행 테마 선택</p>
+            </div>
+            <i id="arrow-icon" class="fa-solid fa-angle-right"></i>
+            <div class="order-title">
+                <p class="step">STEP 2</p>
+                <p>여행지 정보 확인</p>
+            </div>
+            <i id="arrow-icon" class="fa-solid fa-angle-right"></i>
+            <div class="order-title">
+                <p class="step">STEP 3</p>
+                <p>출발지 입력</p>
+            </div>
+            <i id="arrow-icon" class="fa-solid fa-angle-right"></i>
+            <div class="order-title">
+                <p class="step">STEP 4</p>
+                <p>경로 확인</p>
+            </div>
+        </div>
+            
+        <button id="secondpage-button">여행지 검색</button>
+    </main>
+
+    <footer class="footer">
+        <div>
+            서경대학교 컴퓨터공학과
+        </div>
+    </footer>
+
+    <script src="./JS/menu.js"></script>
+    <script src="./JS/scroll.js"></script>
+    <script src="./JS/button.js"></script>
+</body>
+</html>

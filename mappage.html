@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>지도 페이지</title>
+    <script src="https://kit.fontawesome.com/9e9931aed0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./CSS/media.css">
+    <link rel="stylesheet" href="./CSS/menu.css">
+    <link rel="stylesheet" href="./CSS/slide.css">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/map.css">
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <div class="header-click">
+                <i class="fa-solid fa-globe"></i>
+                <a href="http://localhost:8080/jwbook/trip/index.html">국내여행 스캐너</a>
+            </div>
+        </h1>
+        <ul class="menu">
+            <li><a href="index.html">홈 화면</a></li>
+            <li><a href="secondpage.html">테마별 여행지</a></li>
+            <li><a href="mappage.html">지도로 보기</a></li>
+        </ul>
+        <a href="#" class="header_toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </header>
+
+    <div class="map_wrap">
+        <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
+        <div id="menu_wrap" class="bg_white">
+            <div class="option">
+                <div>
+                    <form onsubmit="searchPlaces(); return false;">
+                        키워드 : <input type="text" value="서울역" id="keyword" size="15">
+                        <button type="submit">검색하기</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+        </div>
+    </div>
+
+    <div id="travelPointsContainer">
+        <label for="travelPoint1">여행지 1:</label>
+        <input type="text" id="travelPoint1" placeholder="여행지를 입력해주세요">
+        <button onclick="deleteTravelPoint(1)">삭제</button>
+        
+        <label for="travelPoint2">여행지 2:</label>
+        <input type="text" id="travelPoint2" placeholder="여행지를 입력해주세요">
+        <button onclick="deleteTravelPoint(2)">삭제</button>
+        
+        <label for="travelPoint3">여행지 3:</label>
+        <input type="text" id="travelPoint3" placeholder="여행지를 입력해주세요">
+        <button onclick="deleteTravelPoint(3)">삭제</button>
+        
+        <label for="travelPoint4">여행지 4:</label>
+        <input type="text" id="travelPoint4" placeholder="여행지를 입력해주세요">
+        <button onclick="deleteTravelPoint(4)">삭제</button>
+    </div>
+
+    <button onclick="drawTravelRoute()">경로 확인</button>
+
+    <footer class="footer">
+        <div>
+            서경대학교 컴퓨터공학과
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6cb5a0b5b28297c7a0bbded4d33bd17&libraries=services"></script>
+    <script src="./JS/menu.js"></script>
+    <script src="./JS/scroll.js"></script>
+    <script src="./JS/kakaomap.js"></script>
+</body>
+
+</html>
