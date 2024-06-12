@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
+    kakao.maps.load(initializeMap);
+});
+
+function initializeMap() {
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -264,6 +268,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // searchPlaces 함수를 전역으로 노출
+    // 함수들을 전역으로 노출
     window.searchPlaces = searchPlaces;
-});
+    window.drawTravelRoute = drawTravelRoute;
+    window.deleteTravelPoint = deleteTravelPoint;
+    window.addTravelPoint = addTravelPoint;
+}
